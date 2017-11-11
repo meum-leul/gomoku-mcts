@@ -3,11 +3,8 @@ import random
 import copy
 
 
-##################################
-iternum = 10000 # default 10000
-sidesize = 9 # sidesize >= 5
-##################################
-
+iternum = 10000 # iternum >= 10000 is recommanded.
+sidesize = 17 # sidesize >= 5
 
 mapsize = sidesize * sidesize
 
@@ -172,28 +169,28 @@ class Node:
     
     
 def UCT(rootstate, itermax):
-    rootnode = Node(state = rootstate)
+    rootnode = Node(state=rootstate)
     
     for i in range(itermax):
         node = rootnode
         state = copy.deepcopy(rootstate)
         
-        #selection
+        # selection
         while node.untriedMoves == [] and node.childNodes != []:
             node = node.UCTSelectChild()
             state.DoMove(node.move)
         
-        #Expansion
+        # expansion
         if node.untriedMoves != []:
             m = random.choice(node.untriedMoves)
             state.DoMove(m)
             node = node.AddChild(m, state)
         
-        #simulation
+        # simulation
         while state.GetMoves() != []:
             state.DoMove(random.choice(state.GetMoves()))
         
-        #BackPropagation
+        # BackPropagation
         while node != None:
             node.Update(state.GetResult(node.playerJustMoved))
             node = node.parentNode
@@ -230,4 +227,3 @@ def UCTPlayGame():
     
 if __name__ == "__main__":
     UCTPlayGame() 
-            
