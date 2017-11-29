@@ -8,6 +8,9 @@ sidesize = 17 # sidesize >= 5
 
 mapsize = sidesize * sidesize
 
+# containing recommanded points by CNN
+recom = []
+
 
 def cal_winlist(n):
     win_state_list = []
@@ -85,14 +88,15 @@ class GoMoKu:
         self.state[move] = self.playerJustMoved
         
         
-    def GetMoves(self):
+    def GetMoves(self):      
         if self.checkState() != 0:
             return []
         
         else:
             moves = []
             for i in range(mapsize):
-                if self.state[i] == 0:
+                #if self.state[i] == 0:
+                if self.state[i] == 0 and recom.count != 0:
                     moves.append(i)
                     
             return moves
@@ -168,8 +172,11 @@ class Node:
         return s
     
     
-def UCT(rootstate, itermax):
+def UCT(recommanded_state, rootstate, itermax):
     rootnode = Node(state=rootstate)
+    
+    # by CNN
+    recom = recommanded_state
     
     for i in range(itermax):
         node = rootnode
@@ -201,12 +208,12 @@ def UCT(rootstate, itermax):
     return sorted(s, key = lambda c: c.visits)[-1].move
     
         
-def UCTPlayGame():
+def UCTPlayGame(recommanded_state):
     state = GoMoKu()
     while state.GetMoves() != []:
         if state.playerJustMoved == 2:
             rootstate = copy.deepcopy(state)
-            m = UCT(rootstate, itermax = iternum)
+            m = UCT(recommanded_state, rootstate, itermax = iternum)
         else:
             m, n = input("which Do you want? : ").split()
             m = int(m); m -= 1
@@ -226,4 +233,6 @@ def UCTPlayGame():
     
     
 if __name__ == "__main__":
-    UCTPlayGame() 
+    # get recommanded_state
+    # ...
+    UCTPlayGame(recommanded_state) 
