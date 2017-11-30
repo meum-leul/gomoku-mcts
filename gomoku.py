@@ -116,11 +116,6 @@ class GoMoKu:
                     return 1
                 elif self.state[v] == 2:
                     return 2
-                elif self.state[v] == 3:
-                    return 3
-                elif self.state[v] == 4:
-                    return 4
-
                 
         if [i for i in range(mapsize) if self.state[i] == 0] == []:
             return -1
