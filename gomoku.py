@@ -202,11 +202,23 @@ def UCTPlayGame():
         if state.playerJustMoved == 2:
             rootstate = copy.deepcopy(state)
             m = UCT(rootstate, itermax = iternum)
-        else:
-            m, n = input("which Do you want? : ").split()
-            m = int(m); m -= 1
-            n = int(n); n -= 1
-            m = m * sidesize + n
+    else:
+        while True:
+            # m n
+            try:
+                m, n = input("which Do you want? : ").split()
+                m = int(m);
+                m -= 1
+                n = int(n);
+                n -= 1
+                m = m * sidesize + n
+            except:
+                m = -1
+
+            if m < 0 or m >= mapsize: print("WRONG VALUE")
+            elif state.state[m] != 0: print("WRONG VALUE")
+            else: break
+
         # print("Best Move : " + str(m) + "\n")
         state.DoMove(m)
         print(str(state))
