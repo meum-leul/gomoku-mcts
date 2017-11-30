@@ -96,7 +96,7 @@ class GoMoKu:
             moves = []
             for i in range(mapsize):
                 #if self.state[i] == 0:
-                if self.state[i] == 0 and recom.count != 0:
+                if self.state[i] == 0 and recom.count[i] != 0:
                     moves.append(i)
                     
             return moves
